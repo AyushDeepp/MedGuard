@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import AuthContext from '../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { user, logout } = useContext(AuthContext);
 
   // Handle scroll effect for navbar
   useEffect(() => {
@@ -78,16 +80,40 @@ const Navbar = () => {
               Fake Detection
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to="/about" className="nav-links" onClick={() => setIsOpen(false)}>
-              About Us
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/contact" className="nav-links" onClick={() => setIsOpen(false)}>
-              Contact
-            </Link>
-          </li>
+          
+          {user ? (
+            <>
+              <li className="nav-item">
+                <Link to="/profile" className="nav-links" onClick={() => setIsOpen(false)}>
+                  Profile
+                </Link>
+              </li>
+              <li className="nav-item">
+                <button 
+                  className="nav-links logout-btn" 
+                  onClick={() => {
+                    logout();
+                    setIsOpen(false);
+                  }}
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="nav-item">
+                <Link to="/login" className="nav-links" onClick={() => setIsOpen(false)}>
+                  Login
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/register" className="nav-links" onClick={() => setIsOpen(false)}>
+                  Register
+                </Link>
+              </li>
+            </>
+          )}
         </motion.ul>
       </div>
     </motion.nav>
