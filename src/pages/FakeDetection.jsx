@@ -72,7 +72,7 @@ const FakeDetection = () => {
       setAnalysisResult({
         isGenuine,
         message: isGenuine 
-          ? `Medicine "${medicineName}" verified as genuine. Found in government database.`
+          ? `Medicine verified as genuine. Found in government database.`
           : `FRAUD DETECTED: Medicine "${medicineName}" not found in government database.`,
         medicineName
       });
@@ -232,19 +232,19 @@ const FakeDetection = () => {
             
             <p className="result-message">{analysisResult.message}</p>
             
-            {extractedText && (
+            {/* {extractedText && (
               <div className="extracted-text">
                 <h4>Extracted Text:</h4>
                 <pre>{extractedText}</pre>
               </div>
-            )}
+            )} */}
             
-            {medicine && analysisResult.isGenuine && (
+            {/* {medicine && analysisResult.isGenuine && (
               <div className="medicine-details">
                 <h4>Medicine Information:</h4>
                 <MedicineCard medicine={medicine} />
               </div>
-            )}
+            )} */}
           </motion.div>
         )}
         
