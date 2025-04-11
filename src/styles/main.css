@@ -1425,3 +1425,110 @@ body {
     height: 250px;
   }
 }
+
+/* Analysis Results Styles */
+.analysis-results {
+  background-color: var(--card-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 2rem;
+  margin-top: 2rem;
+  border-left: 5px solid;
+}
+
+.analysis-results.genuine {
+  border-left-color: var(--success-color);
+}
+
+.analysis-results.fake {
+  border-left-color: var(--error-color);
+}
+
+.result-status {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.genuine-badge, .fake-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.genuine-badge {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: var(--success-color);
+}
+
+.fake-badge {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: var(--error-color);
+}
+
+.genuine-badge i, .fake-badge i {
+  font-size: 1.5rem;
+}
+
+.result-message {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.extracted-text {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+}
+
+.extracted-text pre {
+  white-space: pre-wrap;
+  font-family: monospace;
+  margin: 0;
+}
+
+.medicine-details {
+  margin-top: 1.5rem;
+}
+
+.image-preview {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 1.5rem;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.analyze-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.analyze-button:hover {
+  background-color: var(--primary-dark);
+}
+
+.analyze-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

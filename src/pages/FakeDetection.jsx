@@ -14,6 +14,8 @@ const FakeDetection = () => {
   const [error, setError] = useState('');
   const [showScanner, setShowScanner] = useState(false);
   const [scanHistory, setScanHistory] = useState([]);
+  const [analysisResult, setAnalysisResult] = useState(null);
+  const [extractedText, setExtractedText] = useState('');
 
   // Load scan history from localStorage on component mount
   useEffect(() => {
@@ -34,17 +36,75 @@ const FakeDetection = () => {
 
   const handleImageCapture = (imageData) => {
     setImage(imageData);
+    // Reset previous analysis results when a new image is captured
+    setAnalysisResult(null);
+    setExtractedText('');
   };
   
-  const handleAnalyze = () => {
-    // This is a placeholder for the actual analysis functionality
-    // You mentioned you'll provide details on this later
+  const handleAnalyze = async () => {
+    if (!image) {
+      setError('Please upload or capture an image first');
+      return;
+    }
+
     setIsAnalyzing(true);
-    setTimeout(() => {
+    setError('');
+    
+    try {
+      // Convert base64 image to file object
+      const imageFile = dataURLtoFile(image, 'medicine_image.jpg');
+      
+      // Create form data for the API request
+      const formData = new FormData();
+      formData.append('image', imageFile);
+      
+      // Send the image to the backend for OCR and verification
+      const response = await axios.post('http://localhost:5000/api/medicines/ocr-verify', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      const { isGenuine, medicineName, extractedText, matches } = response.data;
+      
+      setExtractedText(extractedText);
+      
+      setAnalysisResult({
+        isGenuine,
+        message: isGenuine 
+          ? `Medicine "${medicineName}" verified as genuine. Found in government database.`
+          : `FRAUD DETECTED: Medicine "${medicineName}" not found in government database.`,
+        medicineName
+      });
+      
+      // If medicine is genuine, set the first match as the medicine details
+      if (isGenuine && matches && matches.length > 0) {
+        setMedicine(matches[0]);
+      } else {
+        setMedicine(null);
+      }
+      
+    } catch (err) {
+      console.error('Error during analysis:', err);
+      setError(err.response?.data?.error || 'An error occurred during analysis. Please try again.');
+    } finally {
       setIsAnalyzing(false);
-      // Here you would display the results
-      alert("Analysis complete! This is a placeholder for the actual functionality.");
-    }, 2000);
+    }
+  };
+
+  // Helper function to convert base64 to file
+  const dataURLtoFile = (dataurl, filename) => {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], filename, { type: mime });
   };
   
   const handleBarcodeChange = (e) => {
@@ -146,15 +206,59 @@ const FakeDetection = () => {
           </motion.div>
         )}
         
+        {/* Analysis Results Section */}
+        {analysisResult && (
+          <motion.div 
+            className={`analysis-results ${analysisResult.isGenuine ? 'genuine' : 'fake'}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h3>Analysis Results</h3>
+            
+            <div className="result-status">
+              {analysisResult.isGenuine ? (
+                <div className="genuine-badge">
+                  <i className="fas fa-check-circle"></i>
+                  <span>GENUINE MEDICINE</span>
+                </div>
+              ) : (
+                <div className="fake-badge">
+                  <i className="fas fa-exclamation-triangle"></i>
+                  <span>FRAUD DETECTED</span>
+                </div>
+              )}
+            </div>
+            
+            <p className="result-message">{analysisResult.message}</p>
+            
+            {extractedText && (
+              <div className="extracted-text">
+                <h4>Extracted Text:</h4>
+                <pre>{extractedText}</pre>
+              </div>
+            )}
+            
+            {medicine && analysisResult.isGenuine && (
+              <div className="medicine-details">
+                <h4>Medicine Information:</h4>
+                <MedicineCard medicine={medicine} />
+              </div>
+            )}
+          </motion.div>
+        )}
+        
+        {error && <div className="error-message">{error}</div>}
+        
         <div className="instructions">
           <h3>How to use this feature:</h3>
           <ol>
             <li>Upload an image of your medicine or take a photo using your camera</li>
-            <li>Make sure the medicine is clearly visible and well-lit</li>
+            <li>Make sure the medicine name is clearly visible and well-lit</li>
             <li>Click "Analyze Medicine" to verify its authenticity</li>
             <li>Review the results to determine if your medicine is genuine</li>
           </ol>
-          <p className="note">Note: This feature is currently in development. More details will be provided soon.</p>
+          <p className="note">Note: For best results, ensure the medicine name is clearly visible in the image.</p>
         </div>
       </div>
     </div>
