@@ -1125,9 +1125,8 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: inherit;
+  font-size: 1.2rem;
   color: inherit;
-  padding: 0;
   font-family: inherit;
 }
 
@@ -1531,4 +1530,57 @@ body {
 .analyze-button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
+}
+
+
+/* Report Medicine Page Styles */
+.report-medicine-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.report-form-container {
+  background-color: var(--card-color);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Report Cards in Profile */
+.reports-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: var(--card-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.report-card {
+  background-color: var(--background-color);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.report-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.report-card p {
+  margin-bottom: 0.5rem;
 }

@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import AuthContext from '../context/AuthContext';
+import axios from 'axios';
 
 const Profile = () => {
   const { user, updateProfile } = useContext(AuthContext);
@@ -19,6 +20,7 @@ const Profile = () => {
   });
   const [message, setMessage] = useState({ type: '', text: '' });
   const [isLoading, setIsLoading] = useState(false);
+  const [reports, setReports] = useState([]);
 
   useEffect(() => {
     if (user) {
@@ -34,6 +36,22 @@ const Profile = () => {
         password: '',
         confirmPassword: '',
       });
+
+      // Fetch user's reports
+      const fetchReports = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/reports/user', {
+            headers: {
+              Authorization: `Bearer ${user.token}`
+            }
+          });
+          setReports(response.data);
+        } catch (error) {
+          console.error('Error fetching reports:', error);
+        }
+      };
+
+      fetchReports();
     }
   }, [user]);
 

@@ -73,7 +73,7 @@ const FakeDetection = () => {
         isGenuine,
         message: isGenuine 
           ? `Medicine verified as genuine. Found in government database.`
-          : `FRAUD DETECTED: Medicine "${medicineName}" not found in government database.`,
+          : `FRAUD DETECTED: Medicine not found in government database.`,
         medicineName
       });
       

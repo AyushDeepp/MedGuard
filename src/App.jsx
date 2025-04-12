@@ -7,6 +7,7 @@ import FakeDetection from './pages/FakeDetection';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import ReportMedicine from './pages/ReportMedicine'; // Add this import
 import PrivateRoute from './components/PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
 import './styles/main.css';
@@ -27,6 +28,11 @@ function App() {
               <Route path="/profile" element={
                 <PrivateRoute>
                   <Profile />
+                </PrivateRoute>
+              } />
+              <Route path="/report-medicine" element={
+                <PrivateRoute>
+                  <ReportMedicine />
                 </PrivateRoute>
               } />
             </Routes>

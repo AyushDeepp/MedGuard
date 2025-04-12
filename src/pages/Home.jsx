@@ -7,7 +7,7 @@ const Home = () => {
   useEffect(() => {
     // Check if the hero image exists
     const img = new Image();
-    img.src = '/src/assets/images/medicine-hero.jpg';
+    img.src = '/src/assets/WhatsApp Image 2023-09-17 at 11.26.32 AM.jpeg';
     img.onload = () => setImageLoaded(true);
     img.onerror = () => setImageLoaded(false);
   }, []);
@@ -74,10 +74,10 @@ const Home = () => {
             whileHover={{ y: -10 }}
           >
             <div className="feature-icon">
-              <i className="fas fa-shield-alt"></i>
+              <i className="fas fa-exclamation-triangle"></i>
             </div>
-            <h3>Fake Detection</h3>
-            <p>Upload images of medicines to verify if they are genuine or counterfeit.</p>
+            <h3>Report Suspicious Medicines</h3>
+            <p>Help protect others by reporting suspicious or counterfeit medicines you encounter.</p>
           </motion.div>
         </div>
       </section>

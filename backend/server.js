@@ -8,6 +8,7 @@ const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const multer = require('multer');
 const { createWorker } = require('tesseract.js');
+const reportRoutes = require('./routes/reportRoutes');
 
 // Load env vars
 dotenv.config();
@@ -385,6 +386,8 @@ app.post('/api/medicines/verify', (req, res) => {
     matches: results.slice(0, 5) // Return up to 5 matches
   });
 });
+
+app.use('/api/reports', reportRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
